@@ -1040,8 +1040,8 @@ static int bladerf2_set_sample_rate(struct bladerf *dev,
     /* Get current sample rate, and check it against the low-rate range */
     CHECK_STATUS(dev->board->get_sample_rate(dev, ch, &current));
 
-    old_low = is_within_range(&bladerf2_sample_rate_range_4x, current);
-    new_low = is_within_range(&bladerf2_sample_rate_range_4x, rate);
+    old_low = is_within_range(&bladerf2_sample_rate_range_2x, current);
+    new_low = is_within_range(&bladerf2_sample_rate_range_2x, rate);
 
     /* Get current filter status */
     if (new_low || old_low) {
@@ -1057,13 +1057,13 @@ static int bladerf2_set_sample_rate(struct bladerf *dev,
         bool fir_set_failed = false;
         int status;
 
-        if (rxfir != BLADERF_RFIC_RXFIR_DEC4 ||
-            txfir != BLADERF_RFIC_TXFIR_INT4) {
+        if (rxfir != BLADERF_RFIC_RXFIR_DEC2 ||
+            txfir != BLADERF_RFIC_TXFIR_INT2) {
             log_debug("%s: enabling 4x decimation/interpolation filters\n",
                       __FUNCTION__);
 
             status = rfic->set_filter(dev, BLADERF_CHANNEL_RX(0),
-                                      BLADERF_RFIC_RXFIR_DEC4, 0);
+                                      BLADERF_RFIC_RXFIR_DEC2, 0);
             if (status < 0) {
                 log_error("%s: could not set RX filter mode: %s\n",
                           __FUNCTION__, bladerf_strerror(status));
@@ -1071,7 +1071,7 @@ static int bladerf2_set_sample_rate(struct bladerf *dev,
             }
 
             status = rfic->set_filter(dev, BLADERF_CHANNEL_TX(0), 0,
-                                      BLADERF_RFIC_TXFIR_INT4);
+                                      BLADERF_RFIC_TXFIR_INT2);
             if (status < 0) {
                 log_error("%s: could not set TX filter mode: %s\n",
                           __FUNCTION__, bladerf_strerror(status));

@@ -515,6 +515,14 @@ static struct bladerf_range const bladerf2_sample_rate_range = {
 };
 
 /* Sample rates requiring a 4x interpolation/decimation */
+static struct bladerf_range const bladerf2_sample_rate_range_2x = {
+    FIELD_INIT(.min,    2083334),
+    FIELD_INIT(.max,    40000000),
+    FIELD_INIT(.step,   1),
+    FIELD_INIT(.scale,  1),
+};
+
+/* Sample rates requiring a 4x interpolation/decimation */
 static struct bladerf_range const bladerf2_sample_rate_range_4x = {
     FIELD_INIT(.min,    520834),
     FIELD_INIT(.max,    2083334),
